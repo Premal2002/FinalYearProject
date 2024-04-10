@@ -1,0 +1,102 @@
+<%- include('partials/header') %>
+
+<!-- breadcrumb-section -->
+<div class="breadcrumb-section breadcrumb-bg">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 offset-lg-2 text-center">
+                <div class="breadcrumb-text">
+                    <p>See more Details</p>
+                    <h1>Single Product</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end breadcrumb section -->
+
+<!-- single product -->
+<div class="single-product mt-150 mb-150">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-5">
+                <div class="single-product-img">
+                    <img src="<%= path %>" alt="" width="350px" height="420px">
+                </div>
+            </div>
+            <div class="col-md-7">
+                <div class="single-product-content">
+                    <h3><%= mainCat %> <%= color %> <%= subCat %></h3>
+                    <p class="single-product-pricing"><span>Color : <%= color %></span> <%= price %>Rs</p>
+                    
+                    <div class="single-product-form">
+                        <form action="/cart" method="post">
+                            <input type="number" placeholder="0"><br>
+                            <input type="hidden" name="mainCat" value="<%= mainCat %>">
+                            <input type="hidden" name="subCat" value="<%= subCat %>">
+                            <input type="hidden" name="_id" value="<%= _id %>">
+                            <input type="hidden" name="subCatType" value="<%= subCatType %>">
+                            <input type="hidden" name="name" value="<%= pname %>">
+                            <input type="hidden" name="path" value="<%= path %>">
+                            <input type="hidden" name="color" value="<%= color %>">
+                            <input type="hidden" name="price" value="<%= price %>">
+                        
+                            <input type="submit" class="cart-btn" value="Add to Cart"><br><br>
+                    </form>
+                        <p><strong>Categories: </strong><%= mainCat %>, <%= subCat %></p>
+                    </div>
+                    <h4>Share:</h4>
+                    <ul class="product-share">
+                        <li><a href=""><i class="fab fa-facebook-f"></i></a></li>
+                        <li><a href=""><i class="fab fa-twitter"></i></a></li>
+                        <li><a href=""><i class="fab fa-google-plus-g"></i></a></li>
+                        <li><a href=""><i class="fab fa-linkedin"></i></a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end single product -->
+
+<!-- more products -->
+<div class="more-products mb-150">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 offset-lg-2 text-center">
+                <div class="section-title">	
+                    <h3><span class="orange-text">Related</span> Products</h3>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid, fuga quas itaque eveniet beatae optio.</p>
+                </div>
+            </div>
+        </div>
+        <div class="row product-lists">
+            <% for (let i = 0; i < 8; i++){ %>
+            <div class="col-lg-3 col-md-6 text-center strawberry">
+                <div class="single-product-item">
+                    <a class="Wishlist1" href="/addWishlist?mainCat=<%=  allItems[i].mainCat  %>&subCat=<%=  allItems[i].subCat  %>&color=<%=  allItems[i].color  %>&price=<%=  allItems[i].price  %>&path=<%=  allItems[i].path  %>&_id=<%=  allItems[i]._id  %>&subCatType=<%=  allItems[i].subCatType  %>&name=<%=  allItems[i].name  %>"><i class="fas fa-heart" style="font-size: 25px;"></i></a>
+                    <form action="/cart" method="post">
+                    <div class="product-image">
+                        <a href="/singleshop?mainCat=<%=  allItems[i].mainCat  %>&subCat=<%=  allItems[i].subCat  %>&color=<%=  allItems[i].color  %>&price=<%=  allItems[i].price  %>&path=<%=  allItems[i].path  %>&_id=<%=  allItems[i]._id  %>&subCatType=<%=  allItems[i].subCatType  %>&name=<%=  allItems[i].name  %>"><img src="<%= allItems[i].path %>" alt="" width="250px" height="270px" ></a>
+                    </div>
+                    <h3><%=  allItems[i].mainCat  %> <%=  allItems[i].subCat  %></h3>
+                    <p class="product-price"> <%=  allItems[i].price  %>Rs </p>
+                    <input type="hidden" name="mainCat" value="<%=  allItems[i].mainCat  %>">
+                    <input type="hidden" name="subCat" value="<%=  allItems[i].subCat  %>">
+                    <input type="hidden" name="_id" value="<%=  allItems[i]._id  %>">
+                    <input type="hidden" name="subCatType" value="<%=  allItems[i].subCatType  %>">
+                    <input type="hidden" name="name" value="<%=  allItems[i].name  %>">
+                    <input type="hidden" name="path" value="<%=  allItems[i].path  %>">
+                    <input type="hidden" name="color" value="<%=  allItems[i].color  %>">
+                    <input type="hidden" name="price" value="<%=  allItems[i].price  %>">
+                    <input type="submit" class="cart-btn" value="Add to Cart">
+                </form>
+                </div>
+            </div>
+            <% }; %>
+            </div>
+    </div>
+</div>
+<!-- end more products -->
+
+<%- include('partials/footer') %>

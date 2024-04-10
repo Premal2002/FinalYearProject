@@ -1,0 +1,172 @@
+<%- include('partials/header') %>
+
+<!-- hero area -->
+<div class="hero-area hero-bg">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-9 offset-lg-2 text-center">
+        <div class="hero-text">
+          <div class="hero-text-tablecell">
+            <p class="subtitle">Latest & Trending</p>
+            <h1>Shop now and have it delivered to your doorstep!</h1>
+            <div class="hero-btns">
+              <a href="/shop" class="boxed-btn">Shop Now</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- end hero area -->
+
+<!-- features list section -->
+<div class="list-section pt-80 pb-80">
+  <div class="container">
+
+    <div class="row">
+      <div class="col-lg-4 col-md-6 mb-4 mb-lg-0">
+        <div class="list-box d-flex align-items-center">
+          <div class="list-icon">
+            <i class="fas fa-shipping-fast"></i>
+          </div>
+          <div class="content">
+            <h3>Fast Shipping</h3>
+            <p>When order over 75Rs</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4 col-md-6 mb-4 mb-lg-0">
+        <div class="list-box d-flex align-items-center">
+          <div class="list-icon">
+            <i class="fas fa-phone-volume"></i>
+          </div>
+          <div class="content">
+            <h3>24/7 Support</h3>
+            <p>Get support all day</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4 col-md-6">
+        <div class="list-box d-flex justify-content-start align-items-center">
+          <div class="list-icon">
+            <i class="fas fa-sync"></i>
+          </div>
+          <div class="content">
+            <h3>Refund</h3>
+            <p>Get refund within 3 days!</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
+
+  </div>
+</div>
+<!-- end features list section -->
+
+<!-- product section -->
+<div id="#products" class="product-section mt-150 mb-150">
+  <div class="container">
+    <div class="row">
+      
+      <div class="col-lg-8 offset-lg-2 text-center">
+        <div class="section-title">	
+          <h3><span class="orange-text">Trending</span> Products</h3>
+          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid, fuga quas itaque eveniet beatae optio.</p>
+        </div>
+      </div>
+    </div>
+    <div class="row"> 
+      <% trendingItems.forEach(function(items){ %>
+      <div class="col-lg-4 col-md-6 text-center">
+        <div class="single-product-item">
+          <a class="Wishlist" href="/addWishlist?mainCat=<%=  items.mainCat  %>&subCat=<%=  items.subCat  %>&color=<%=  items.color  %>&price=<%=  items.price  %>&path=<%=  items.path  %>&_id=<%=  items._id  %>&subCatType=<%=  items.subCatType  %>&name=<%=  items.name  %>"><i class="fas fa-heart" style="font-size: 30px;"></i></a>
+          <form action="/cart" method="post">
+          <div class="product-image">
+            <a href="/singleshop?mainCat=<%=  items.mainCat  %>&subCat=<%=  items.subCat  %>&color=<%=  items.color  %>&price=<%=  items.price  %>&path=<%=  items.path  %>&_id=<%=  items._id  %>&subCatType=<%=  items.subCatType  %>&name=<%=  items.name  %>"><img src="<%= items.path %>" alt="" width="250px" height="350ox" ></a>
+            
+          </div>
+          <h3><%=  items.mainCat  %> <%=  items.subCat  %></h3>
+          <input type="hidden" name="mainCat" value="<%=  items.mainCat  %>">
+          <input type="hidden" name="subCat" value="<%=  items.subCat  %>">
+          <input type="hidden" name="_id" value="<%=  items._id  %>">
+          <input type="hidden" name="subCatType" value="<%=  items.subCatType  %>">
+          <input type="hidden" name="name" value="<%=  items.name  %>">
+          <input type="hidden" name="path" value="<%=  items.path  %>">
+          <input type="hidden" name="color" value="<%=  items.color  %>">
+          <input type="hidden" name="price" value="<%=  items.price  %>">
+          <p class="product-price"> <%=  items.price  %>Rs </p>
+          <input type="submit" class="cart-btn" value="Add to Cart">
+        </form>
+        </div>
+      </div>
+
+      <% }); %>
+     
+      
+    </div>
+  </div>
+</div>
+<!-- end product section -->
+
+<!-- cart banner section -->
+<section class="cart-banner pt-100 pb-100">
+    <div class="container">
+        <div class="row clearfix">
+            <!--Image Column-->
+            <% bestitem.forEach(function(items){ %>
+            <div class="image-column col-lg-6">
+                <div class="image">
+                    <div class="price-box">
+                        <div class="inner-price">
+                              <span class="price">
+                                  <strong>30%</strong> <br> off per item
+                              </span>
+                          </div>
+                      </div>
+                    <img src="<%= items.path %>" alt="">
+                  </div>
+              </div>
+              <!--Content Column-->
+              <div class="content-column col-lg-6">
+        <h3><span class="orange-text">Best</span> Deal of the month</h3>
+                  <h4><%=  items.mainCat  %> <%=  items.subCat  %></h4>
+                  <div class="text">Quisquam minus maiores repudiandae nobis, minima saepe id, fugit ullam similique! Beatae, minima quisquam molestias facere ea. Perspiciatis unde omnis iste natus error sit voluptatem accusant</div>
+                  <!--Countdown Timer-->
+                  <form action="/cart" method="post">
+                  <input type="hidden" name="mainCat" value="<%=  items.mainCat  %>">
+                  <input type="hidden" name="subCat" value="<%=  items.subCat  %>">
+                  <input type="hidden" name="_id" value="<%=  items._id  %>">
+                  <input type="hidden" name="subCatType" value="<%=  items.subCatType  %>">
+                  <input type="hidden" name="name" value="<%=  items.name  %>">
+                  <input type="hidden" name="path" value="<%=  items.path  %>">
+                  <input type="hidden" name="color" value="<%=  items.color  %>">
+                  <input type="hidden" name="price" value="<%=  items.price  %>">
+                  <input type="submit" class="cart-btn" value="Add to Cart">
+                </form>
+              </div>
+          </div>
+          <% }); %>
+      </div>
+  </section>
+  <!-- end cart banner section -->
+
+
+
+
+<!-- shop banner -->
+<section class="shop-banner">
+    <div class="container">
+        <h3>Summer sale is on! <br> with big <span class="orange-text">Discount...</span></h3>
+          <div class="sale-percent"><span>Sale! <br> Upto</span>50% <span>off</span></div>
+          <a href="/shop" class="cart-btn btn-lg">Shop Now</a>
+      </div>
+  </section>
+<!-- end shop banner -->
+
+
+
+
+<%- include('partials/footer') %>

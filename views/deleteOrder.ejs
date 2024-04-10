@@ -1,0 +1,64 @@
+<%- include('partials/header') %>
+
+	<!-- breadcrumb-section -->
+	<div class="breadcrumb-section breadcrumb-bg">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-8 offset-lg-2 text-center">
+					<div class="breadcrumb-text">
+						<p>Complete your purchase with confidence!</p>
+						<h1>Order cancellation</h1>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- end breadcrumb section -->
+
+	<!-- check out section -->
+	<div class="checkout-section mt-150 mb-150">
+		<div class="container">
+			<div class=""></div>
+			<div class="row" style="justify-content: center;">
+				<div class="col-lg-8">
+					<div class="checkout-accordion-wrap">
+						<div class="accordion" id="accordionExample">
+						  <div class="card single-accordion">
+						    <div class="card-header" id="headingOne">
+						      <h5 class="mb-0">
+						        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+						         Why you want to cancel your order?
+						        </button>
+						      </h5>
+						    </div>
+
+						    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+						      <div class="card-body">
+						        <div class="billing-address-form">
+						        	<form action="/deleteOrderedItem" method="post">
+						        		<p><input type="text" name="name" placeholder="Name" required></p>
+						        		<p><input type="tel" name="mobile" placeholder="Phone" required></p>
+                                        <input type="hidden" name="deleteItemId" value="<%= deleteItemId %>">
+						        		<p><textarea name="usermsg" id="bill" cols="30" rows="10" placeholder="Cancellation Reason"></textarea></p>
+                                        <input type="submit" class="boxed-btn black"  value="Cancel Order">
+                                        </form>
+						        </div>
+						      </div>
+						    </div>
+						  </div>
+						  
+						  
+						   
+						</div>
+
+					</div>
+				</div>
+
+				
+			</div>
+		
+		</div>
+	</div>
+	<!-- end check out section -->
+
+<%- include('partials/footer') %>

@@ -1,0 +1,125 @@
+<%- include('partials/header') %>
+
+	<!-- breadcrumb-section -->
+	<div class="breadcrumb-section breadcrumb-bg">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-8 offset-lg-2 text-center">
+					<div class="breadcrumb-text">
+						<p>Complete your purchase with confidence!</p>
+						<h1>Check Out Product</h1>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- end breadcrumb section -->
+
+	<!-- check out section -->
+	<div class="checkout-section mt-150 mb-150">
+		<div class="container">
+			<div class=""></div>
+			<form action="/checkout" method="post">
+			<div class="row">
+				<div class="col-lg-8">
+					<div class="checkout-accordion-wrap">
+						<div class="accordion" id="accordionExample">
+						  <div class="card single-accordion">
+						    <div class="card-header" id="headingOne">
+						      <h5 class="mb-0">
+						        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+						         Enter details and place order
+						        </button>
+						      </h5>
+						    </div>
+
+						    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+						      <div class="card-body">
+						        <div class="billing-address-form">
+						        	<!-- <form action="index.html"> -->
+						        		<p><input type="text" name="name" placeholder="Name" required></p>
+						        		<p><input type="email" name="username" placeholder="Email" required></p>
+						        		<p><input type="text" name="address" placeholder="Address" required></p>
+						        		<p><input type="tel" name="mobile" placeholder="Phone" required></p>
+						        		<p><textarea name="usermsg" id="bill" cols="30" rows="10" placeholder="Say Something"></textarea></p>
+						        	<!-- </form> -->
+						        </div>
+						      </div>
+						    </div>
+							
+								  <% if(ordererror!=""){ %>
+									<div class="alert alert-warning alert-dismissible" style="position: absolute; z-index: 1; left: 200px; ">
+										<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+										<strong><%= ordererror %></strong>
+									  </div>
+									  <% } %>
+						  </div>
+						  
+						  
+						   
+						</div>
+
+					</div>
+				</div>
+
+				<div class="col-lg-4">
+					<div class="order-details-wrap">
+						<table class="order-details">
+							<thead>
+								<tr>
+									<th>Your order Details</th>
+									<th>Price</th>
+								</tr>
+							</thead>
+							<tbody class="order-details-body">
+								<tr>
+									<td>Product</td>
+									<td>Total</td>
+								</tr>
+								<% var orderedProducts=""; %>
+								<% var orderedProductsid=""; %>
+								<% var orderedProductspath=""; %>
+								<% foundproducts.forEach(function(products){ %>
+								<tr>
+									<td><%= products.mainCat %> <%= products.subCat %></td>
+									<% orderedProducts=orderedProducts+"["+products.mainCat+products.subCat+"] " %>
+									<% orderedProductsid=orderedProductsid+"["+products._id+"] " %>
+									<% orderedProductspath=orderedProductspath+"["+products.path+"] " %>
+									<td><%= products.price %></td>
+								</tr>
+								<% }); %>
+							</tbody>
+							<input type="hidden" name="orderedProducts" value="<%= orderedProducts %>">
+							<input type="hidden" name="orderedProductsid" value="<%= orderedProductsid %>">
+							<input type="hidden" name="orderedProductspath" value="<%= orderedProductspath %>">
+							<tbody class="checkout-details">
+								<tr>
+									<td>Subtotal</td>
+									<td><%= subTotal %></td>
+									<input type="hidden" name="subTotal" value="<%= subTotal %>">
+								</tr>
+								<tr>
+									<td>Shipping</td>
+									<td><%= shipping %></td>
+									<input type="hidden" name="shipping" value="<%= shipping %>">
+								</tr>
+								<tr>
+									<td>Total</td>
+									<td><%= total %></td>
+									<input type="hidden" name="total" value="<%= total %>">
+								</tr>
+							</tbody>
+						</table>
+						<br>
+						<div style="font-size: 16px;color: #333333;font-family: 'Open Sans', sans-serif;">Payment Type : Cod(Cash on Delivery)</div>
+						<br>
+						<input type="submit" class="boxed-btn black"  value="Place Order">
+					</div>
+				</div>
+			</div>
+		</form>
+		</div>
+	</div>
+	<!-- end check out section -->
+
+<%- include('partials/footer') %>

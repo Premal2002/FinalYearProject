@@ -1,0 +1,82 @@
+<%- include('partials/header') %>
+
+    <!-- breadcrumb-section -->
+	<div class="breadcrumb-section breadcrumb-bg">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-8 offset-lg-2 text-center">
+					<div class="breadcrumb-text">
+						<p>Don't leave your perfect picks behind,add them to your Wishlist!</p>
+						<h1>Wishlist</h1>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- end breadcrumb section -->
+
+	<!-- cart -->
+	<div class="cart-section mt-150 mb-150">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-12 col-md-12">
+                    <% if(wishlist!=""){ %>
+                        <div class="alert alert-success alert-dismissible" style="position: absolute; z-index: 1; left: 200px; ">
+                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                            <strong><%= wishlist %></strong>
+                          </div>
+                          <% } %>
+                          <% if(wishlistremove!=""){ %>
+                            <div class="alert alert-success alert-dismissible" style="position: absolute; z-index: 1; left: 200px; ">
+                                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                <strong><%= wishlistremove %></strong>
+                              </div>
+                              <% } %>
+					<div class="cart-table-wrap">
+						<table class="cart-table">
+							<thead class="cart-table-head">
+								<tr class="table-head-row">
+									<th class="product-remove"></th>
+									<th class="product-image">Product Image</th>
+									<th class="product-name">Name</th>
+									<th class="product-price">Price</th>
+									<th class="product-total">Availability</th>
+                                    <th class="product-total">Add</th>
+								</tr>
+							</thead>
+							<tbody>
+								<% foundproducts.forEach(function(products){ %>
+								<tr class="table-body-row">
+									<td class="product-remove"><a href="/deleteWishlistItem?itemId=<%= products._id %>"><i class="far fa-window-close"></i></a></td>
+									<td class="product-image"><img src="<%= products.path %>" alt=""  height="70px"></td>
+									<td class="product-name"><%= products.mainCat %> <%= products.subCat %></td>
+									<td class="product-price"><%= products.price %></td>
+									<td class="product-total">Available</td>
+                                    <td class="product-total">
+                                        <form action="/cart" method="post">
+                                        <input type="hidden" name="mainCat" value="<%=  products.mainCat  %>">
+                                        <input type="hidden" name="subCat" value="<%=  products.subCat  %>">
+                                        <input type="hidden" name="_id" value="<%=  products._id  %>">
+                                        <input type="hidden" name="subCatType" value="<%=  products.subCatType  %>">
+                                        <input type="hidden" name="name" value="<%=  products.name  %>">
+                                        <input type="hidden" name="path" value="<%=  products.path  %>">
+                                        <input type="hidden" name="color" value="<%=  products.color  %>">
+                                        <input type="hidden" name="price" value="<%=  products.price  %>">
+                                        <input type="submit" class="cart-btn" value="Add to Cart">
+                                        </form>
+
+                                    </td>
+								</tr>
+								<% }); %>
+							</tbody>
+						</table>
+						
+					</div>
+				</div>
+
+				
+			</div>
+		</div>
+	</div>
+	<!-- end cart -->
+    <%- include('partials/footer') %>

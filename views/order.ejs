@@ -1,0 +1,87 @@
+<%- include('partials/header') %>
+
+    <!-- breadcrumb-section -->
+	<div class="breadcrumb-section breadcrumb-bg">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-8 offset-lg-2 text-center">
+					<div class="breadcrumb-text">
+						<p>Don't leave your perfect picks behind,add them to your Wishlist!</p>
+						<h1>Your Orders</h1>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- end breadcrumb section -->
+
+	<!-- cart -->
+	<div class="cart-section mt-150 mb-150">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-12 col-md-12">
+                    <% if(ordermsg!=""){ %>
+						<div class="alert alert-success alert-dismissible" style="position: absolute; z-index: 1; left: 200px; ">
+							<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+							<strong><%= ordermsg %></strong>
+						  </div>
+						  <% } %>
+                          <% if(orderremove!=""){ %>
+                            <div class="alert alert-success alert-dismissible" style="position: absolute; z-index: 1; left: 200px; ">
+                                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                <strong><%= orderremove %></strong>
+                              </div>
+                              <% } %>
+					<div class="cart-table-wrap">
+						<table class="cart-table">
+							<thead class="cart-table-head">
+								<tr class="table-head-row">
+									<th class="product-remove">Cancel Order</th>
+									<th class="product-image">Product Image</th>
+									<th class="product-price">Products</th>
+									<th class="product-total">SubTotal</th>
+                                    <th class="product-total">Shipping</th>
+                                    <th class="product-total">Total</th>
+									<th class="product-name">Payment</th>
+									<th class="product-name">Ordered Date</th>
+									<th class="product-name">Expected Delivery</th>
+								</tr>
+							</thead>
+							<tbody>
+								<% foundproducts.forEach(function(products){ %>
+								<tr class="table-body-row">
+									<td class="product-remove"><a href="/deleteOrder?itemId=<%= products._id %>"><i class="far fa-window-close"></i></a></td>
+									<td class="product-image">
+									<% 
+										const regex = /\[(.*?)\]/g;
+										
+										var match;
+										while ((match = regex.exec(products.orderedProductspath))) {
+										const data = match[1]; %>
+										<img src="<%= data %>" alt=""  height="70px">&nbsp;&nbsp;
+										<%
+										}
+
+									%>
+								</td>
+									<td class="product-price"><%= products.orderedProducts %></td>
+									<td class="product-total"><%= products.subTotal %></td>
+                                    <td class="product-total"><%= products.shipping %> </td>
+                                    <td class="product-total"><%= products.total %> </td>
+									<td class="product-name" style="color: darkgreen !important;">COD</td>
+									<td class="product-total"><%= products.orderedDate %> </td>
+									<td class="product-total"><%= products.deliveryDate %> </td>
+								</tr>
+								<% }); %>
+							</tbody>
+						</table>
+						
+					</div>
+				</div>
+
+				
+			</div>
+		</div>
+	</div>
+	<!-- end cart -->
+    <%- include('partials/footer') %>

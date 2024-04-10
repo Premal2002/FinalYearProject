@@ -1,0 +1,48 @@
+
+<%- include('partials/header') %>
+
+<!-- breadcrumb-section -->
+<div class="breadcrumb-section breadcrumb-bg">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 offset-lg-2 text-center">
+                <div class="center">
+                    <span class="lt">Sign-up</span>
+                    <hr class="hr">
+                    <form action="/register" method="post">
+                      <div class="txt_field">
+                        <input type="text" name="name" placeholder="Name" required>
+                       
+                      </div>
+                      <hr class="hr">
+                      <div class="txt_field">
+                        <input type="email" name="username" placeholder="Email-id/Username" required>
+                        
+                      </div>
+                      <hr class="hr">
+                      <div class="txt_field">
+                        <input type="text" name="mobile" placeholder="Mobile-no" required>
+                       
+                      </div>
+                      <hr class="hr">
+                      <div class="txt_field">
+                        <input type="password" name="password" placeholder="Password" required>
+                        
+                      </div>
+                      <hr class="hr">
+
+                      <input type="submit" value="Sign-up" class="lb boxed-btn">
+                      <br><br>
+                      <a class="btn btn-block btn-social btn-google" href="/auth/google" role="button">
+                        <i class="fab fa-google"></i>
+                        &nbsp &nbsp Google 
+                      </a>
+                    </form>
+                  </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<%- include('partials/footer') %>
