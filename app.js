@@ -14,6 +14,19 @@ const url = require("url");
 const querystring = require("querystring");
 const { count } = require("console");
 
+const Razorpay = require('razorpay');  
+  
+// This razorpayInstance will be used to 
+// access any resource from razorpay 
+const razorpayInstance = new Razorpay({ 
+  
+    // Replace with your key_id 
+    key_id: 'rzp_test_j7PO399Eq2YGNt', 
+  
+    // Replace with your key_secret 
+    key_secret: 'u9FBkfgauUyOwc0DiAuZeui6'
+}); 
+
 const app = express();
 
 app.use(flash());
@@ -276,12 +289,25 @@ const orderSchema = new mongoose.Schema({
   subTotal: String,
   shipping: String,
   total: String,
+  payType : String,
+  payStatus : String,
   usermsg: String,
   orderedDate: String,
   deliveryDate: String,
 });
 
 const Order = mongoose.model("Order", orderSchema);
+
+const paymentSchema = new mongoose.Schema({
+  orderedProducts: String,
+  orderedProductsid: String,
+  orderid : String,
+  paymentid : String,
+  total: String,
+  orderedDate: String,
+});
+
+const Payment = mongoose.model("Payment", paymentSchema);
 
 app.get("/", function (req, res) {
   Trending.find(function (err, items) {
@@ -1007,22 +1033,28 @@ app.post("/checkout", function (req, res) {
   const total = req.body.total;
   const usermsg = req.body.usermsg;
 
+  const payType = req.body.payType;
+
+  
+
   const now = new Date();
   const day = now.getDate();
-  const month = now.getMonth();
+  const month = now.getMonth()+1;
   const year = now.getFullYear();
 
   const fullDate = `${day}-${month}-${year}`;
 
   const twoDaysLater = new Date(now.setDate(now.getDate() + 2));
   const day1 = twoDaysLater.getDate();
-  const month1 = twoDaysLater.getMonth();
+  const month1 = twoDaysLater.getMonth()+1;
   const year1 = twoDaysLater.getFullYear();
 
   const fullDate1 = `${day1}-${month1}-${year1}`;
 
-  // console.log(name,username,address,mobile,orderedProducts,subTotal,shipping,total);
+  
 
+  // console.log(name,username,address,mobile,orderedProducts,subTotal,shipping,total);
+  if(payType=="cod"){
   Order.find(function (err, items) {
     if (req.cookies["username"] == username) {
       const order = new Order({
@@ -1036,6 +1068,8 @@ app.post("/checkout", function (req, res) {
         subTotal: subTotal,
         shipping: shipping,
         total: total,
+        payType : payType,
+        payStatus : "not done",
         usermsg: usermsg,
         orderedDate: fullDate,
         deliveryDate: fullDate1,
@@ -1051,7 +1085,28 @@ app.post("/checkout", function (req, res) {
       );
       res.redirect("/checkout");
     }
+  
   });
+}else{
+  res.render("processPayment", {
+    username: req.cookies["username"],
+    name: name, 
+    address : address,
+    mobile : mobile,
+    orderedProducts : orderedProducts,
+    orderedProductsid : orderedProductsid,
+    orderedProductspath : orderedProductspath,
+    subTotal : subTotal,
+    shipping : shipping,
+    total: total,
+    usermsg : usermsg,
+    orderedDate : fullDate,
+    deliveryDate : fullDate1,
+    order: req.flash("order"),
+    ordererror: req.flash("ordererror"),
+    payType : payType
+  });
+}
 });
 
 //-------------------------------------------------------------------------------------------------------
@@ -1196,6 +1251,106 @@ app.post("/searchItem", function (req, res) {
     res.redirect("/404login");
   }
 });
+
+app.post("/payNow", (req, res) => {
+  // console.log("hello");
+  const amount = req.body.amount;
+
+  console.log(req.body.amount);
+  if(amount=="" || amount==null){
+     console.log("Amount should not be empty");
+  }
+
+  const ob = {
+      amount : amount * 100,
+      currency : "INR",
+      receipt : "txn_3263283",
+  };
+
+  razorpayInstance.orders.create(ob,  
+      (err, order)=>{ 
+        
+        //STEP 3 & 4:  
+        if(!err) {
+          res.json(order);
+        }else
+          res.send(err); 
+      } 
+  )
+  // res.redirect("/");
+});
+
+
+app.post("/processPayment", function (req, res) {
+  console.log("inside");
+  const name = req.body.name;
+  const username = req.body.username;
+  const address = req.body.address;
+  const mobile = req.body.mobile;
+  const orderedProducts = req.body.orderedProducts;
+  const orderedProductsid = req.body.orderedProductsid;
+  const orderedProductspath = req.body.orderedProductspath;
+  const subTotal = req.body.subTotal;
+  const shipping = req.body.shipping;
+  const total = req.body.amount;
+  const usermsg = req.body.usermsg;
+  const payType = req.body.payType;
+  const orderedDate = req.body.orderedDate;
+  const deliveryDate = req.body.deliveryDate;
+  const response = req.body.response;
+  
+
+  console.log(name,username,address,mobile,orderedProducts,subTotal,shipping,total,orderedDate,deliveryDate,payType,response.razorpay_order_id);
+  
+    if (req.cookies["username"] == username) {
+      const order = new Order({
+        name: name,
+        username: username,
+        address: address,
+        mobile: mobile,
+        orderedProducts: orderedProducts,
+        orderedProductsid: orderedProductsid,
+        orderedProductspath: orderedProductspath,
+        subTotal: subTotal,
+        shipping: shipping,
+        total: total,
+        payType : payType,
+        payStatus : "done",
+        usermsg: usermsg,
+        orderedDate: orderedDate,
+        deliveryDate: deliveryDate,
+      });
+      console.log("online order");
+      order.save();
+
+      const payment = new Payment({
+        orderedProducts: orderedProducts,
+        orderedProductsid: orderedProductsid,
+        orderid : response.razorpay_order_id,
+        paymentid : response.razorpay_payment_id,
+        total: total,
+        orderedDate: orderedDate,
+      });
+
+      payment.save();
+      req.flash("order", "Your order has been placed...");
+      res.redirect("/order");
+    } else {
+      req.flash(
+        "ordererror",
+        "Please enter same username/email used while login!!!"
+      );
+      res.redirect("/checkout");
+    }
+  
+
+});
+
+app.get("/postPayment", function (req, res) {
+      req.flash("order", "Your order has been placed...");
+      res.redirect("/order");
+});
+
 
 app.listen(3000, function () {
   console.log("Server started on 3000");

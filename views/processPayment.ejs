@@ -1,0 +1,81 @@
+<%- include('partials/header') %>
+
+	<!-- breadcrumb-section -->
+	<div class="breadcrumb-section breadcrumb-bg">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-8 offset-lg-2 text-center">
+					<div class="breadcrumb-text">
+						<p>Complete your purchase with confidence!</p>
+						<h1>Make Payment</h1>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- end breadcrumb section -->
+
+	<!-- check out section -->
+	<div class="checkout-section mt-150 mb-150">
+		<div class="container">
+			<div class=""></div>
+			<!-- <form action="/checkout" method="post"> -->
+			<div class="row">
+				<div class="col-lg-8">
+					<div class="checkout-accordion-wrap">
+						<div class="accordion" id="accordionExample">
+						  <div class="card single-accordion">
+						    <div class="card-header" id="headingOne">
+						      <h5 class="mb-0">
+						        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+						         Enter details and pay now  
+						        </button>
+						      </h5>
+						    </div>
+
+						    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+						      <div class="card-body">
+						        <div class="billing-address-form">
+						        	<!-- <form action="index.html"> -->
+						        		<p><input type="text"  id="name" name="name"  value="<%= name %>" required readonly></p>
+						        		<p><input type="email" id="username" name="username" value="<%= username %>" required readonly></p>
+						        		<p><input type="text" id="paymentValue" name="total" value="<%= total %>" required readonly></p>
+                                        <input type="hidden" id="address" name="address" value="<%= address %>"  readonly>
+                                        <input type="hidden" id="mobile" name="mobile" value="<%= mobile %>"  readonly>
+                                        <input type="hidden" id="orderedProducts" name="orderedProducts" value="<%= orderedProducts %>"  readonly>
+                                        <input type="hidden" id="orderedProductsid" name="orderedProductsid" value="<%= orderedProductsid %>"  readonly>
+                                        <input type="hidden" id="orderedProductspath" name="orderedProductspath" value="<%= orderedProductspath %>"  readonly>
+                                        <input type="hidden" id="subTotal" name="subTotal" value="<%= subTotal %>"  readonly>
+                                        <input type="hidden" id="shipping" name="shipping" value="<%= shipping %>"  readonly>
+                                        <input type="hidden" id="usermsg" name="usermsg" value="<%= usermsg %>"  readonly>
+                                        <input type="hidden" id="orderedDate" name="orderedDate" value="<%= orderedDate %>"  readonly>
+                                        <input type="hidden" id="deliveryDate" name="deliveryDate" value="<%= deliveryDate %>"  readonly>
+                                        <input type="hidden" id="payType" name="payType" value="<%= payType %>"  readonly>
+						        	<!-- </form> -->
+						        </div>
+						      </div>
+						    </div>
+							
+								  <% if(ordererror!=""){ %>
+									<div class="alert alert-warning alert-dismissible" style="position: absolute; z-index: 1; left: 200px; ">
+										<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+										<strong><%= ordererror %></strong>
+									  </div>
+									  <% } %>
+						  </div>
+						  
+						  
+						   
+						</div>
+
+					</div>
+                    <!-- <input type="submit" class="boxed-btn black"  value="Pay Now"> -->
+                    <button onclick="paymentStart()" id="submit" class="boxed-btn black">Pay Now</button>
+				</div>	
+			</div>
+		<!-- </form> -->
+		</div>
+	</div>
+	<!-- end check out section -->
+
+<%- include('partials/footer') %>

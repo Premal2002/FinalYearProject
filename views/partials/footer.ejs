@@ -1,3 +1,121 @@
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script>
+    
+const paymentStart = () => {
+    console.log("payment started");
+   
+    let amount = $("#paymentValue").val(); 
+    let name = $("#name").val();
+    let username = $("#username").val();
+    let address = $("#address").val();
+    let mobile = $("#name").val();
+    let orderedProducts = $("#orderedProducts").val();
+    let orderedProductsid = $("#orderedProductsid").val();
+    let orderedProductspath = $("#orderedProductspath").val();
+    let subTotal = $("#subTotal").val();
+    let shipping = $("#shipping").val();
+    let usermsg = $("#usermsg").val();
+    let orderedDate = $("#orderedDate").val();
+    let deliveryDate= $("#deliveryDate").val();
+    let payType= $("#payType").val();
+    console.log(amount);
+   
+    if(amount=='' || amount==null){
+       alert("amount can't be empty");
+       return;
+    }
+    //ajax req
+    $.ajax({
+       type: "POST",
+       url: "/payNow",
+       data: {
+           amount: amount // Example amount value
+       },
+       success: function(response) {
+           console.log("Success:", response);
+            if(response.status=="created"){
+                 var options = { 
+                   "key_id": "rzp_test_j7PO399Eq2YGNt",  
+                   "amount": response.amount,  
+                   "currency": "INR", 
+                   "name": "SwiftShop Payment", 
+                   "description": "Pay & Checkout products, enjoy your products", 
+                    "image": "https://ibb.co/D7QwcST", 
+                   "order_id": response.id,   
+                   "handler": function (response){ 
+                       // console.log(response.razorpay_payment_id); 
+                       // console.log(response.razorpay_order_id);
+                       console.log(response);
+                       alert("payment succeded");
+                       $.ajax({
+                        type: "POST",
+                        url: "/processPayment",
+                        data: {
+                            amount: amount,
+                            username: username,
+                            name: name, 
+                            address : address,
+                            mobile : mobile,
+                            orderedProducts : orderedProducts,
+                            orderedProductsid : orderedProductsid,
+                            orderedProductspath : orderedProductspath,
+                            subTotal : subTotal,
+                            shipping : shipping,
+                            usermsg : usermsg,
+                            orderedDate : orderedDate,
+                            deliveryDate : deliveryDate,
+                            payType : payType,
+                            response : response
+                             // Example amount value
+                        },
+                        success : function(response){
+                            setTimeout(() => {
+                                // Use a publicly accessible URL for testing
+                                var redirectUrl = "/postPayment";
+                                window.location.href = redirectUrl;
+                                // redirect after 1 seconds
+                            }, 500)
+                        }
+                    });
+
+                   }, 
+                   "prefill": { 
+                      //Here we are prefilling random contact 
+                     "contact":"9768342809",  
+                       //name and email id, so while checkout 
+                     "name": "Shubham Shegokar",   
+                     "email": "shubham69@gmail.com"    
+                   }, 
+                  "notes" : { 
+                     
+                   },  
+                   "theme": { 
+                       "color": "#2300a3" 
+                   } 
+               }; 
+               var razorpayObject = new Razorpay(options); 
+               console.log(razorpayObject); 
+               razorpayObject.on('payment.failed', function (response){ 
+                 alert(response.error.code);
+                   console.log("ERROR 404");    
+                 console.log(response); 
+                     //alert("This step of Payment Failed"); 
+               });
+    
+                   razorpayObject.open(); 
+                   
+               }
+       },
+       error: function(xhr, status, error) {
+           console.error("Error:", error);
+       }
+   });
+   }
+
+   
+   
+   
+</script>
 <!-- footer -->
 <div class="footer-area">
     <div class="container">
@@ -17,6 +135,25 @@
                         <li>A4/12, Shreeji Aura, Dahiwali, Karjat.</li>
                         <li>shubham69@gmail.com</li>
                         <li>+91 9359030764</li>
+                        <script>
+                            (function (w, d, s, o, f, js, fjs) {
+                              w["botsonic_widget"] = o;
+                              w[o] =
+                                w[o] ||
+                                function () {
+                                  (w[o].q = w[o].q || []).push(arguments);
+                                };
+                              (js = d.createElement(s)), (fjs = d.getElementsByTagName(s)[0]);
+                              js.id = o;
+                              js.src = f;
+                              js.async = 1;
+                              fjs.parentNode.insertBefore(js, fjs);
+                            })(window, document, "script", "Botsonic", "https://widget.writesonic.com/CDN/botsonic.min.js");
+                            Botsonic("init", {
+                              serviceBaseUrl: "https://api-azure.botsonic.ai",
+                              token: "91d79053-3160-4554-a748-49942594c0c9",
+                            });
+                          </script>
                     </ul>
                 </div>
             </div>
